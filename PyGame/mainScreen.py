@@ -44,8 +44,7 @@ def main():
     ballList = []
     for i in range(numBall):
         ballList.append(Ball())
-    isDown = False
-    saveKey =''
+    saveKey = [False, False, False, False]
     score = 0
 
  # main game loop
@@ -56,28 +55,33 @@ def main():
         #키가 눌려있는지 아닌지 확인
         for event in pygame.event.get():
             if(event.type == KEYDOWN):
-                isDown = True
                 if event.key == K_a:
-                    saveKey = 'a'
-                elif event.key == K_d:
-                    saveKey = 'd'
-                elif event.key == K_w:
-                    saveKey = 'w'
-                elif event.key == K_s:
-                    saveKey ='s'
+                    saveKey[0] = True
+                if event.key == K_d:
+                    saveKey[1] = True
+                if event.key == K_w:
+                    saveKey[2] = True
+                if event.key == K_s:
+                    saveKey[3] = True
             elif(event.type == KEYUP):
-                isDown = False
+                if event.key == K_a:
+                    saveKey[0] = False
+                if event.key == K_d:
+                    saveKey[1] = False
+                if event.key == K_w:
+                    saveKey[2] = False
+                if event.key == K_s:
+                    saveKey[3] = False
             #키 눌려있을 경우 누르는 자판 저장
 
-        if isDown == True:
-            if (saveKey == 'a') :
-                player.x = player.x - 5
-            elif (saveKey == 'd') :
-                player.x = player.x + 5
-            elif (saveKey =='w') :
-                player.y = player.y - 5
-            elif (saveKey =='s') :
-                player.y = player.y + 5;
+        if (saveKey[0]) :
+            player.x = player.x - 5
+        elif (saveKey[1]) :
+            player.x = player.x + 5
+        if (saveKey[2]) :
+            player.y = player.y - 5
+        elif (saveKey[3]) :
+            player.y = player.y + 5;
 
         #게임종료
         if event.type == pygame.QUIT:
