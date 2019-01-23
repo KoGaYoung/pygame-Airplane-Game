@@ -74,14 +74,16 @@ def main():
                     saveKey[3] = False
             #키 눌려있을 경우 누르는 자판 저장
 
+        #눌린 키에 따라 비행기 이동
+        # true IF condition ELSE false
         if (saveKey[0]) :
-            player.x = player.x - 5
+            player.x = player.x - 5 if player.x - 5 > 0 else player.x
         elif (saveKey[1]) :
-            player.x = player.x + 5
+            player.x = player.x + 5 if player.x + 5 < SCREEN_WIDTH else player.x
         if (saveKey[2]) :
-            player.y = player.y - 5
+            player.y = player.y - 5 if player.y - 5 > 0 else player.y
         elif (saveKey[3]) :
-            player.y = player.y + 5;
+            player.y = player.y + 5 if player.y + 5 < SCREEN_HEIGHT else player.y;
 
         #게임종료
         if event.type == pygame.QUIT:
