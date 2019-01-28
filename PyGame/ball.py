@@ -2,8 +2,8 @@ import pygame, sys
 from pygame.locals import *
 from random import *
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT= 600
+SCREEN_WIDTH = 300
+SCREEN_HEIGHT= 300
 
 class Ball(object):
     def __init__(bullet):
