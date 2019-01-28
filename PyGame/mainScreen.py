@@ -1,4 +1,5 @@
 import pygame, sys
+import math
 from pygame.locals import *
 from random import *
 from ball import *
@@ -26,11 +27,7 @@ def main():
     while True:
         elapsed = clock.tick(30)
         #score += elapsed
-        #print(ballList[1].x, ballList[1].y)
-        print("공[1]좌표")
-        print(ballList[1].x, ballList[1].y)
-        print("둘 사이의 x거리구하기")
-        print(player.x-ballList[1].x)
+
         #키가 눌려있을 때 동시키 입력할 수 있도록
         for event in pygame.event.get():
             if(event.type == KEYDOWN):
@@ -52,6 +49,25 @@ def main():
                 if event.key == K_s:
                     saveKey[3] = False
 
+
+        min = 10000
+        ball = ballList[0]
+        a = 0
+        b = 0
+        for i in range (5) :
+            a = player.x - ballList[i].x
+            b = player.y - ballList[i].y
+            c = math.sqrt((a * a ) + (b * b)) #제곱근구하기
+            if( c < min ):
+                min = c
+                ball = ballList[i]
+
+
+        saveKey[0] = ball.x > player.x
+        saveKey[1] = ball.x < player.x
+        saveKey[2] = ball.y < player.y
+        saveKey[3] = ball.y > player.y
+
         #눌린 키에 따라 비행기 이동
         # true IF condition ELSE false
         if (saveKey[0]) :
@@ -62,6 +78,7 @@ def main():
             player.y = player.y - 5 if player.y - 5 > 0 else player.y
         elif (saveKey[3]) :
             player.y = player.y + 5 if player.y + 5 < SCREEN_HEIGHT else player.y;
+
 
         #게임종료
         if event.type == pygame.QUIT:
