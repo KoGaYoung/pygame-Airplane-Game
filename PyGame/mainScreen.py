@@ -1,11 +1,12 @@
 import pygame, sys
+import math
 from pygame.locals import *
 from random import *
 from ball import *
 from player import *
 
-SCREEN_WIDTH = 300
-SCREEN_HEIGHT= 300
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT= 600
 
 pygame.init()
 pygame.display.set_caption('Main_Screen')
@@ -15,7 +16,7 @@ clock = pygame.time.Clock()
 
 def main():
     player = Player()
-    numBall=5
+    numBall=50
     ballList = []
     for i in range(numBall):
         ballList.append(Ball())
@@ -27,10 +28,17 @@ def main():
         elapsed = clock.tick(30)
         #score += elapsed
         #print(ballList[1].x, ballList[1].y)
-        print("공[1]좌표")
-        print(ballList[1].x, ballList[1].y)
-        print("둘 사이의 x거리구하기")
-        print(player.x-ballList[1].x)
+
+        
+        minDist = 50000
+        minBall = ballList[0]
+        for i in range(numBall):
+            ball = ballList[i]
+            dist = math.sqrt( (player.x-ball.x)**2 +(player.y-ball.y)**2 )
+            if (minDist > dist):
+                minDist = dist
+                minBall = ball
+
         #키가 눌려있을 때 동시키 입력할 수 있도록
         for event in pygame.event.get():
             if(event.type == KEYDOWN):
@@ -52,16 +60,21 @@ def main():
                 if event.key == K_s:
                     saveKey[3] = False
 
+        saveKey[0] = minBall.x > player.x
+        saveKey[1] = minBall.x < player.x
+        saveKey[2] = minBall.y > player.y
+        saveKey[3] = minBall.y < player.y
+
         #눌린 키에 따라 비행기 이동
         # true IF condition ELSE false
         if (saveKey[0]) :
             player.x = player.x - 5 if player.x - 5 > 0 else player.x
         elif (saveKey[1]) :
-            player.x = player.x + 5 if player.x + 5 < SCREEN_WIDTH else player.x
+            player.x = player.x + 5 if player.x + 5 < SCREEN_WIDTH - 13 else player.x
         if (saveKey[2]) :
             player.y = player.y - 5 if player.y - 5 > 0 else player.y
         elif (saveKey[3]) :
-            player.y = player.y + 5 if player.y + 5 < SCREEN_HEIGHT else player.y;
+            player.y = player.y + 5 if player.y + 5 < SCREEN_HEIGHT - 13 else player.y;
 
         #게임종료
         if event.type == pygame.QUIT:
