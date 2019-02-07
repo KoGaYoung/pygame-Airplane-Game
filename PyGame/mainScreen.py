@@ -48,7 +48,6 @@ def pygamerender():
             if event.key == K_s:
                 saveKey[3] = False
 
-
     min = 10000
     ball = ballList[0]
     a = 0
@@ -60,7 +59,6 @@ def pygamerender():
         if( c < min ):
             min = c
             ball = ballList[i]
-
 
     saveKey[0] = ball.x > player.x
     saveKey[1] = ball.x < player.x
@@ -104,22 +102,28 @@ class Application(tk.Frame):
                               command=self.start)
         self.start.pack(side="left")
         self.quit = tk.Button(self, text="QUIT", fg="red",
-                              command=self.master.destroy)
+                              command=self.quit)
         self.quit.pack(side="right")
 
     def pygameloop(self):
-        pygamerender();
+        if running:
+            pygamerender()
         self.update()
         self.after(0, app.pygameloop)
 
     def start(self):
-        print('start button pressed')
+        global running
+        running = True
 
+    def quit(self):
+        global running
+        running = False
+running = True # global flag
 root = tk.Tk()
 app = Application(master=root)
 app.after(0, app.pygameloop)
 app.mainloop()
 
-
+#파이썬은 자동실행되는 메인함수 없어서 직접 써줘야함
 if __name__ == "__main__":
     main()
